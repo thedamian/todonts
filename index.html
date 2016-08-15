@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>To Don'ts Exchange</title>
+  <meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+  <!-- Inject stylesheets -->
+  <!-- Normalize CSS for browser compatability -->
+  <link rel="stylesheet" href="https://necolas.github.io/normalize.css/3.0.3/normalize.css">
+  <link rel="stylesheet" href="css/style.css">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <!-- End Stylesheets -->
+</head>
+
+
+<!-- Start App -->
+
+<body ng-app="TodoList">
+  <div class="container" ng-controller="NoteCtrl as vm">
+    <h1> To Don'Ts Exchange</h1>
+
+
+    <!-- Start Button Navigation -->
+    <div class="buttons">
+      <button id="new-sticky" class="highlight btn" ng-click="vm.addSticky()"><i class="material-icons">note_add</i>Create</button>
+      <!--<button id="empty" class="highlight btn red" ng-click="vm.deleteAll()"><i class="material-icons">close</i>Delete All</button>-->
+    </div>
+    <!-- End Button Navigation -->
+
+    <!-- Start Container of Sticky Notes -->
+    <article id="edit-container">
+      <section ng-repeat="(id, msg) in vm.localStorage track by $index" class="card-panel" ng-if="vm.localStorage[id]">
+        <div data-id="{{id}}">
+          <textarea type="text" data-id="{{id}}" ng-model="msg" ng-change="vm.updateLS(msg, id)" autoresize>
+            </textarea>
+          <button class="erase material-icons highlight" ng-click="vm.deleteSticky(id)">close</button>
+        </div>
+      </section>
+    </article>
+    <!-- End Container of Sticky Notes -->
+
+
+  </div>
+  <!-- End App -->
+
+
+  <!-- Inject Scripts -->
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.5/angular.min.js"></script>
+  <script src="js/index.js"></script>
+  <!-- End Scripts -->
+
+</body>
+
+</html>
+    
+       
+
+    
