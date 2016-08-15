@@ -12,7 +12,7 @@ angular.module('TodoList', []);
   angular.module('TodoList')
     .controller('NoteCtrl', NoteCtrl);
 
-  NoteCtrl.$inject = ['$scope'];
+  NoteCtrl.$inject = ['$scope','$http'];
 
   function NoteCtrl($scope,$http) {
     var self = this;
@@ -45,21 +45,26 @@ angular.module('TodoList', []);
 
     // Add Sticky Note by attaching the premade-string to localStorage with a unique ID.
     self.addSticky = function() {
-        $http.get("http://www.omdbapi.com/?t=" + $scope.search + "&tomatoes=true&plot=full")
-        .then(function(response){ $scope.details = response.data; });
-
-
-      window.localStorage[self.currentId++] = initialStrings[self.currentId % initialStrings.length];
+      var str = "";
+      var data = {"description":str}
+      var reply = "";
+      $http.post("http://localhost:3000/todonts/", JSON.stringify(data)) .then(function(response){ reply = response.data; });
+      console.log("reply from post" + reply);
+      self.currentId = reply.id;
+      window.localStorage[self.currentId++] =  initialStrings[self.currentId % initialStrings.length];
     };
 
     // Update LocalStorage if a user changes a sticky note (using ng-change, so that all changes are immediately bound to LS).
     self.updateLS = function(str, elemID) {
+      var data = {"description":str}
+      $http.put("http://localhost:3000/todonts/"+elemID, JSON.stringify(data));
       window.localStorage[elemID] = str;
     };
 
     // Delete note in LocalStorage if a user clicks on the delete button.
     self.deleteSticky = function(elemID, elem) {
-      delete window.localStorage[elemID];
+      $http.delete("http://localhost:3000/todonts/"+elemID);
+      // delete window.localStorage[elemID];
     };
 
     // Delete all notes on the page by emptying out localStorage.
