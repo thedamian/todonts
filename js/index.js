@@ -48,7 +48,15 @@ angular.module('TodoList', []);
       var str = "";
       var data = {"description":str}
       var reply = "";
-      $http.post("http://localhost:3000/todonts/", JSON.stringify(data)) .then(function(response){ reply = response.data; });
+      //Content-Type: applicaiton/json
+      $http(
+        { 
+        url:"http://localhost:3000/todonts/",
+        method: "POST",
+        headers: {'Content-Type': 'application/json'},
+        data:"{'description':'"+str+"'}"
+    })
+      .success(function(data, status, headers, config) { reply = data; });
       console.log("reply from post" + reply);
       self.currentId = reply.id;
       window.localStorage[self.currentId++] =  initialStrings[self.currentId % initialStrings.length];
@@ -57,7 +65,13 @@ angular.module('TodoList', []);
     // Update LocalStorage if a user changes a sticky note (using ng-change, so that all changes are immediately bound to LS).
     self.updateLS = function(str, elemID) {
       var data = {"description":str}
-      $http.put("http://localhost:3000/todonts/"+elemID, JSON.stringify(data));
+      $http(
+        { 
+        url:"http://localhost:3000/todonts/"+elemID,
+        method: "POST",
+        headers: {'Content-Type': 'application/json'},
+        data:"{'description':'"+str+"'}"
+    })
       window.localStorage[elemID] = str;
     };
 
